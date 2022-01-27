@@ -14,8 +14,8 @@ from sgtk.platform.qt import QtGui, QtCore
 
 
 class Signaller(QtCore.QObject):
-    """
-    """
+    """"""
+
     signal = QtCore.Signal(str, logging.LogRecord)
 
 

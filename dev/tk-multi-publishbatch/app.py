@@ -16,26 +16,16 @@ import sgtk
 
 
 class PublishBatchApp(sgtk.platform.Application):
-    """
-    """
+    """"""
 
     def init_app(self):
         """
         Called as the application is being initialized
         """
 
-        # do nothing in the init_app() method as we don't want a menu entry for the app
-        pass
-
-    def launch_batch_publish(self, tree_file):
-        """
-        Use this method to launch the Batch Publish app. It will display the app widget
-        and launch the publish process
-
-        :param tree_file: The publish tree file we want to use
-        """
         tk_multi_publishbatch = self.import_module("tk_multi_publishbatch")
-        tk_multi_publishbatch.show_dialog(
-            self,
-            tree_file
+
+        cb = lambda tree_file=None: tk_multi_publishbatch.show_dialog(self, tree_file)
+        self.engine.register_command(
+            "Batch Publish Report...", cb, {"short_name": "batch_publish"}
         )

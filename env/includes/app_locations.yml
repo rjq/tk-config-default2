@@ -19,6 +19,11 @@ includes:
 
 # ---- Multi apps
 
+# batch-publish
+apps.tk-multi-publishbatch.location:
+  type: dev
+  path: "{CONFIG_FOLDER}/dev/tk-multi-publishbatch"
+
 # about
 apps.tk-multi-about.location:
   type: app_store

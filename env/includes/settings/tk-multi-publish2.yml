@@ -499,24 +499,25 @@ settings.tk-multi-publish2.alias.asset_step:
    - name: Begin file versioning
      hook: "{engine}/tk-multi-publish2/basic/start_version_control.py"
      settings: {}
-   - name: Publish to ShotGrid
-     hook: "{self}/publish_file.py:{engine}/tk-multi-publish2/basic/publish_session.py"
+   - name: Batch Publish to ShotGrid
+     hook: "{self}/publish_file.py:{config}/custom/tk-multi-publish2/batch_publish.py:{config}/custom/tk-multi-publish2/batch_publish_alias_session.py"
      settings:
        Publish Template: alias_asset_publish
-   - name: Create 3D Version for Review
-     hook: "{self}/upload_version.py:{engine}/tk-multi-publish2/basic/upload_version.py"
+   - name: Batch Create 3D Version for Review
+     hook: "{self}/upload_version.py:{config}/custom/tk-multi-publish2/batch_publish.py:{engine}/tk-multi-publish2/basic/upload_version.py:{config}/custom/tk-multi-publish2/batch_publish_alias_version.py"
      settings:
        3D Version: True
-   - name: Publish CATPart to ShotGrid
-     hook: "{self}/publish_file.py:{engine}/tk-multi-publish2/basic/publish_translation.py"
+   - name: Batch Publish CATPart to ShotGrid
+     hook: "{self}/publish_file.py:{config}/custom/tk-multi-publish2/batch_publish.py:{config}/custom/tk-multi-publish2/batch_publish_alias_translation.py"
      settings:
        Publish Template: alias_asset_catpart_publish
-   - name: Publish Variants to ShotGrid
-     hook: "{self}/publish_file.py:{engine}/tk-multi-publish2/basic/publish_variants.py"
+   - name: Batch Publish Variants to ShotGrid
+     hook: "{self}/publish_file.py:{config}/custom/tk-multi-publish2/batch_publish.py:{config}/custom/tk-multi-publish2/batch_publish_alias_variants.py"
      settings: {}
-   - name: Publish Annotations to ShotGrid
-     hook: "{engine}/tk-multi-publish2/basic/publish_annotations.py"
+   - name: Batch Publish Annotations to ShotGrid
+     hook: "{engine}/tk-multi-publish2/basic/publish_annotations.py:{config}/custom/tk-multi-publish2/batch_publish.py:{config}/custom/tk-multi-publish2/batch_publish_alias_annotations.py"
      settings: {}
+  post_phase: "{self}/post_phase.py:{config}/custom/tk-multi-publish2/batch_publish.py:{config}/custom/tk-multi-publish2/post_phase_batch.py"
   help_url: *help_url
   location: "@apps.tk-multi-publish2.location"
 

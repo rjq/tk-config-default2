@@ -30,7 +30,6 @@ shotgun_globals = sgtk.platform.import_framework(
 
 
 class AppDialog(QtGui.QWidget):
-
     def __init__(self, parent=None, tree_file=None):
         """
         :param parent: The parent QWidget for this control
@@ -77,7 +76,7 @@ class AppDialog(QtGui.QWidget):
             file_name,
             maxBytes=1024 * 1024 * 5,
             backupCount=1,
-            encoding="utf8" if six.PY3 else None
+            encoding="utf8" if six.PY3 else None,
         )
         self._app.logger.addHandler(self.file_handler)
 
@@ -85,9 +84,7 @@ class AppDialog(QtGui.QWidget):
 
         # Launch the publish batch process
         if self._tree_file:
-            task_id = self._bg_task_manager.add_task(
-                self.run_publish_process
-            )
+            task_id = self._bg_task_manager.add_task(self.run_publish_process)
             self._pending_requests.append(task_id)
 
     def closeEvent(self, event):
@@ -132,14 +129,18 @@ class AppDialog(QtGui.QWidget):
 
         # check that the files we need to run the publish process exist on disk
         if not os.path.isfile(self._tree_file):
-            self._app.logger.warning("Couldn't find the publish tree file to start the publish process")
+            self._app.logger.warning(
+                "Couldn't find the publish tree file to start the publish process"
+            )
             return
 
         current_engine = sgtk.platform.current_engine()
         self._publisher_app = current_engine.apps.get("tk-multi-publish2")
         if self._publisher_app:
 
-            os.environ["SGTK_BATCH_PUBLISH"] = "True"  # Maya environment variables only accept strings...
+            os.environ[
+                "SGTK_BATCH_PUBLISH"
+            ] = "True"  # Maya environment variables only accept strings...
 
             # disconnect the publish app progress handler
             # we need to do this otherwise all the calls to logger.info()/logger.debug()/... in the hooks will fail
@@ -169,7 +170,9 @@ class AppDialog(QtGui.QWidget):
             return
         self._pending_requests.remove(uid)
         self._ui.progress_message.setText("Publish process completed!")
-        self._ui.progress_status_icon.setPixmap(QtGui.QPixmap(":/tk-multi-progress/publish_complete.png"))
+        self._ui.progress_status_icon.setPixmap(
+            QtGui.QPixmap(":/tk-multi-progress/publish_complete.png")
+        )
         shutil.rmtree(os.path.dirname(self._tree_file))
         self._ui.close_button.setEnabled(True)
 
@@ -184,19 +187,17 @@ class AppDialog(QtGui.QWidget):
         """
         if uid in self._pending_requests:
             self._pending_requests.remove(uid)
-        self._app.logger.error(
-            "Failed to execute publish process %s: %s"
-            % (uid, msg)
-        )
+        self._app.logger.error("Failed to execute publish process %s: %s" % (uid, msg))
         self._app.logger.error(stack_trace)
         self._app.logger.error("Publish tree file path: {}".format(self._tree_file))
         self._ui.progress_message.setText("Publish process failed!")
-        self._ui.progress_status_icon.setPixmap(QtGui.QPixmap(":/tk-multi-progress/publish_failed.png"))
+        self._ui.progress_status_icon.setPixmap(
+            QtGui.QPixmap(":/tk-multi-progress/publish_failed.png")
+        )
         self._ui.close_button.setEnabled(True)
 
     def __shut_down_publish_handler(self):
-        """
-        """
+        """"""
 
         tk_multi_publish2 = self._publisher_app.import_module("tk_multi_publish2")
 
@@ -206,9 +207,11 @@ class AppDialog(QtGui.QWidget):
                 if widget._widget:
                     child_widget = widget._widget
                     while child_widget:
-                        if isinstance(child_widget, tk_multi_publish2.dialog.AppDialog) \
-                                and hasattr(child_widget, "_bundle") \
-                                and child_widget._bundle == self._publisher_app:
+                        if (
+                            isinstance(child_widget, tk_multi_publish2.dialog.AppDialog)
+                            and hasattr(child_widget, "_bundle")
+                            and child_widget._bundle == self._publisher_app
+                        ):
                             publisher_widget = child_widget
                             break
                         child_widget = child_widget.parent()
