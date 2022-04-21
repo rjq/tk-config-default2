@@ -30,7 +30,6 @@ includes:
 
 engines:
   tk-desktop: "@settings.tk-desktop.project"
-  tk-flame: "@settings.tk-flame.project"
   tk-hiero: "@settings.tk-nuke.hiero.project"
   tk-houdini: "@settings.tk-houdini.project"
   tk-mari: "@settings.tk-mari.project"
